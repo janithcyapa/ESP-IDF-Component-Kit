@@ -1,4 +1,4 @@
-#include "i2c_scanner.hpp"
+#include "util_i2c_scanner.hpp"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

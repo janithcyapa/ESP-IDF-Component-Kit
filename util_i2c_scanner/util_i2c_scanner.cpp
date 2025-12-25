@@ -1,4 +1,4 @@
-#include "i2c_scanner.hpp"
+#include "util_i2c_scanner.hpp"
 #include <cstdio>
 
 namespace i2c_scanner {

@@ -5,21 +5,21 @@
 
 extern "C" {
     #include "driver/i2c.h"
-    #include "vl53l0x.h"
+    #include "sens_vl53l0x.h"
 }
 // Your configuration
-#define I2C_PORT        I2C_NUM_0
-#define I2C_SDA_GPIO    GPIO_NUM_21
-#define I2C_SCL_GPIO    GPIO_NUM_22
+#define I2C_PORT        0
+#define I2C_SDA_GPIO    21
+#define I2C_SCL_GPIO    22
 #define XSHUT_GPIO      -1
 #define VL53L0X_ADDRESS 0x29
 
-static const char *TAG = "Scorpion";
+static const char *TAG = "VL53L0X_EXAMPLE";
 
 extern "C" void app_main(void)
 {
-    ESP_LOGI(TAG, "Starting Scorpion");
-    // 1. Configure the sensor
+    ESP_LOGI(TAG, "Starting VL53L0X example...");
+    
     vl53l0x_t *sensor = vl53l0x_config(
         I2C_PORT,
         I2C_SCL_GPIO,
@@ -46,7 +46,7 @@ extern "C" void app_main(void)
     ESP_LOGI(TAG, "VL53L0X initialized successfully!");
     
     // 3. Configure timing budget for better performance
-    error = vl53l0x_setMeasurementTimingBudget(sensor, 200000); // 200ms timing budget
+    error = vl53l0x_setMeasurementTimingBudget(sensor, 33000); // 33ms timing budget
     if (error) {
         ESP_LOGW(TAG, "Failed to set timing budget: %s", error);
     }
@@ -71,7 +71,7 @@ extern "C" void app_main(void)
         } else {
             // Valid measurement
             if (distance < 1200) {
-                ESP_LOGI(TAG, "Distance: %d", distance);
+                ESP_LOGI(TAG, "Distance: %d mm", distance);
             } else {
                 ESP_LOGI(TAG, "Distance: > 1200 mm (out of optimal range)");
             }
@@ -83,7 +83,7 @@ extern "C" void app_main(void)
         }
         
         // Wait before next measurement
-        vTaskDelay(pdMS_TO_TICKS(10)); // 100ms delay
+        vTaskDelay(pdMS_TO_TICKS(1000)); // 100ms delay
     }
     
     // 7. Cleanup (this won't be reached in this example)

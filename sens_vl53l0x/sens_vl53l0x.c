@@ -3,7 +3,7 @@
 // Based on https://github.com/pololu/vl53l0x-arduino
 static const char __attribute__((unused)) TAG[] = "ranger";
 
-#include "vl53l0x.h"
+#include "sens_vl53l0x.h"
 #include "esp_timer.h"
 #include "esp_log.h"
 #include <driver/i2c.h>
