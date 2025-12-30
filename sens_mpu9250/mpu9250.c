@@ -44,7 +44,7 @@ typedef struct
 
 static esp_err_t enable_magnetometer(void);
 
-esp_err_t i2c_mpu9250_init(calibration_t *c)
+esp_err_t i2c_mpu9250_init(calibration_t *c,bool use_mag)
 {
   ESP_LOGI(TAG, "Initializating MPU9250");
   vTaskDelay(100 / portTICK_PERIOD_MS);
@@ -82,9 +82,11 @@ esp_err_t i2c_mpu9250_init(calibration_t *c)
 
   ESP_LOGD(TAG, "END of MPU9250 initialization");
 
-  ESP_ERROR_CHECK(enable_magnetometer());
+  if(use_mag){
+    ESP_ERROR_CHECK(enable_magnetometer());
+  }
 
-  print_settings();
+  print_settings(use_mag);
 
   return ESP_OK;
 }
@@ -552,10 +554,12 @@ void print_gyro_settings(void)
   ESP_LOGI(TAG, "  --> z: %f", cal->gyro_bias_offset.z);
 };
 
-void print_settings(void)
+void print_settings(bool use_mag)
 {
   mpu9250_print_settings();
   print_accel_settings();
   print_gyro_settings();
-  ak8963_print_settings();
+  if(use_mag){
+    ak8963_print_settings();
+  }
 }

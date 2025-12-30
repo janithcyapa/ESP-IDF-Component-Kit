@@ -143,7 +143,7 @@ typedef struct
 
 } calibration_t;
 
-esp_err_t i2c_mpu9250_init(calibration_t *cal);
+esp_err_t i2c_mpu9250_init(calibration_t *cal,bool use_mag);
 esp_err_t set_clock_source(uint8_t adrs);
 esp_err_t set_full_scale_gyro_range(uint8_t adrs);
 esp_err_t set_full_scale_accel_range(uint8_t adrs);
@@ -164,6 +164,6 @@ esp_err_t get_accel_gyro(vector_t *va, vector_t *vg);
 esp_err_t get_accel_gyro_mag(vector_t *va, vector_t *vg, vector_t *vm);
 esp_err_t get_mag_raw(uint8_t bytes[6]);
 
-void print_settings(void);
+void print_settings(bool use_mag);
 
 #endif // __MPU9250_H

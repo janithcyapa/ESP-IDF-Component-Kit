@@ -50,12 +50,12 @@ void wait(void)
   printf("\n");
 }
 
-static void init_imu(void)
+static void init_imu(bool use_mag)
 {
   static bool init_imu_done = false;
   if (init_imu_done)
     return;
-  i2c_mpu9250_init(&cal);
+  i2c_mpu9250_init(&cal,use_mag);
   init_imu_done = true;
 }
 
@@ -76,7 +76,7 @@ const int NUM_GYRO_READS = 5000;
 
 void calibrate_gyro(void)
 {
-  init_imu();
+  init_imu(false);
 
   ESP_LOGI(TAG, "--- GYRO CALIBRATION ---");
   ESP_LOGW(TAG, "Keep the MPU very still.  Calculating gyroscope bias");
@@ -223,7 +223,7 @@ void run_next_capture(int axis, int dir)
 
 void calibrate_accel(void)
 {
-  init_imu();
+  init_imu(false);
 
   ESP_LOGI(TAG, "--- ACCEL CALIBRATION ---");
 
@@ -279,7 +279,7 @@ void calibrate_mag(void)
 
   const int NUM_MAG_READS = 2000;
 
-  init_imu();
+  init_imu(true);
 
   ESP_LOGW(TAG, "Rotate the magnometer around all 3 axes, until the min and max values don't change anymore.");
 
