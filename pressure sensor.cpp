@@ -7,8 +7,8 @@
 static const char *TAG = "HX710B_App";
 
 // Pin Config
-#define DOUT_GPIO GPIO_NUM_19
-#define SCK_GPIO  GPIO_NUM_18
+#define DOUT_GPIO GPIO_NUM_14
+#define SCK_GPIO  GPIO_NUM_27
 
 extern "C" void app_main(void)
 {
