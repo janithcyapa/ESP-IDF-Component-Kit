@@ -49,7 +49,7 @@ esp_err_t i2c_mpu9250_init(calibration_t *c,bool use_mag)
   ESP_LOGI(TAG, "Initializating MPU9250");
   vTaskDelay(100 / portTICK_PERIOD_MS);
 
-  i2c_master_init(I2C_MASTER_NUM, I2C_MASTER_SDA_IO, I2C_MASTER_SCL_IO);
+  // i2c_master_init(I2C_MASTER_NUM, I2C_MASTER_SDA_IO, I2C_MASTER_SCL_IO);
 
   if (initialised)
   {
