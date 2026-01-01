@@ -120,7 +120,7 @@ void run_imu(void)
       vTaskDelay(0);
     }
 
-    pause();
+    mpu_pause();
   }
 }
 
