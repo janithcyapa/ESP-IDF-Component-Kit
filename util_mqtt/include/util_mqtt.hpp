@@ -20,4 +20,5 @@ private:
     static esp_mqtt_client_handle_t s_client;
     static MqttDataCallback s_data_callback; 
     static std::string s_sub_topic; // Stores the topic to auto-subscribe on connect
+    static bool s_connected; // Track connection state
 };

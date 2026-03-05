@@ -5,6 +5,7 @@ static const char *TAG = "MQTT_UTIL";
 esp_mqtt_client_handle_t MqttUtil::s_client = nullptr;
 MqttDataCallback MqttUtil::s_data_callback = nullptr;
 std::string MqttUtil::s_sub_topic = ""; // Initialize empty
+bool MqttUtil::s_connected = false;
 
 void MqttUtil::event_handler(void* handler_args, esp_event_base_t base, 
                             int32_t event_id, void* event_data) {
@@ -13,12 +14,17 @@ void MqttUtil::event_handler(void* handler_args, esp_event_base_t base,
     switch ((esp_mqtt_event_id_t)event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-            
+            s_connected = true; // Mark as connected
             // Auto-subscribe once connection is established (or re-established)
             if (!s_sub_topic.empty()) {
                 esp_mqtt_client_subscribe(s_client, s_sub_topic.c_str(), 1);
                 ESP_LOGI(TAG, "Subscribed to topic: %s", s_sub_topic.c_str());
             }
+            break;
+
+        case MQTT_EVENT_DISCONNECTED:
+            ESP_LOGW(TAG, "MQTT_EVENT_DISCONNECTED");
+            s_connected = false; // Mark as disconnected so we stop publishing
             break;
 
         case MQTT_EVENT_DATA: {
@@ -63,7 +69,10 @@ void MqttUtil::init(const char* uri) {
 }
 
 void MqttUtil::publish(const char* topic, const char* data) {
-    if (s_client) {
+    if (s_client && s_connected) {
         esp_mqtt_client_publish(s_client, topic, data, 0, 1, 0);
+    } else {
+        // Optional: Log a warning or just silently drop the data to save RAM
+        ESP_LOGD(TAG, "Dropped publish to %s - MQTT disconnected", topic);
     }
 }
