@@ -8,7 +8,7 @@ extern "C" void app_main() {
 
     ESP_LOGI(TAG, "Starting application");
 
-    // 1. Initialize the I2C bus using the hardcoded macros in your header
+    // 1. Initialize the I2C bus using the new driver
     i2c_util::i2c_init();
 
     // 2. Perform an initial scan
