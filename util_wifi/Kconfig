@@ -1,0 +1,21 @@
+menu "Wi-Fi Configuration"
+
+    config ESP_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+        help
+            SSID of the AP to connect to.
+
+    config ESP_WIFI_PASSWORD
+        string "Wi-Fi Password"
+        default "mypassword"
+        help
+            Password of the AP to connect to.
+
+    config ESP_MAXIMUM_RETRY
+        int "Maximum Retry"
+        default 5
+        help
+            Maximum number of retries if connection fails.
+
+endmenu
