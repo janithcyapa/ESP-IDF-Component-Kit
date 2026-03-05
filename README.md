@@ -24,6 +24,17 @@ git submodule add https://github.com/janithcyapa/ESP-IDF-Component-Kit.git compo
 git submodule update --init --recursive
 ```
 
+Then update the root `Then update the root`
+```
+# The following five lines of boilerplate have to be in your project's
+# CMakeLists in this exact order for cmake to work correctly
+cmake_minimum_required(VERSION 3.16)
+
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+set(EXTRA_COMPONENT_DIRS "components/ESP-IDF-Component-Kit")
+project(AHU_Firmware)
+```
+
 ### Usage
 The ESP-IDF build system (CMake) will automatically detect the components inside the kit. To use a specific component in your code, simply include its header and add it to your project's idf_component.yml or CMakeLists.txt if required.
 
