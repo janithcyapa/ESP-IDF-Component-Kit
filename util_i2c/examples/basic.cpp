@@ -3,24 +3,20 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-
 extern "C" void app_main() { 
     static const char* TAG = "main";
 
     ESP_LOGI(TAG, "Starting application");
 
-    i2c_scanner::I2cScanner scanner({
-        .sda_io_num = GPIO_NUM_21,
-        .scl_io_num = GPIO_NUM_22,
-        .i2c_port = I2C_NUM_0,
-        .clk_speed = 100000
-    });
+    // 1. Initialize the I2C bus using the hardcoded macros in your header
+    i2c_util::i2c_init();
 
-    scanner.scan();
+    // 2. Perform an initial scan
+    i2c_util::i2c_scan();
 
+    // 3. Keep scanning every 10 seconds
     while (true) {
         vTaskDelay(pdMS_TO_TICKS(10000));
-        scanner.scan();
+        i2c_util::i2c_scan();
     }
 }
-
