@@ -13,6 +13,7 @@ public:
     static void init(const char* uri);
     static void publish(const char* topic, const char* data);
     static void subscribe(const char* topic, MqttDataCallback callback);
+    static bool is_connected() { return s_connected; }
 
 private:
     static void event_handler(void* handler_args, esp_event_base_t base, 
